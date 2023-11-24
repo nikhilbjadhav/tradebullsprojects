@@ -7,6 +7,8 @@ pipeline {
         backupFilename = "/app/ms/ms-content-data-parser/ms-content-data-parser_backup_"
         service_name = "ms-content-data-parser@7402.service"
         microservice = "ms-content-data-parser"
+        gitUrl = "https://gitlab.tradebulls.in/trading/vendors/trendlyne/ms-content-data-parser.git"
+        branch = "UAT"
     }
 
     stages {
@@ -23,6 +25,12 @@ pipeline {
             steps {
                 sh 'mvn clean package --settings /home/jenkins/.m2/settings.xml'
                 echo "build has been created"
+            }
+        }
+
+        stage('Need Approval for procced') {
+            steps {
+                input message: 'Do you want to proceed with deployment?', ok: 'Deploy'
             }
         }
 
